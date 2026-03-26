@@ -16,7 +16,7 @@ import service.PrintableInfo;
  * Ticket ----- Passenger         (plain line = ASOSIASI/weak)
  * Ticket ----- Schedule          (plain line = ASOSIASI/weak)
  *
- * TODO Tim:
+ * TODO :
  * 1. Lengkapi constructor, getter, setter, dan identitas tiket.
  * 2. Hubungkan tiket dengan logika perhitungan total harga.
  * 3. Tambahkan validasi status pembayaran.

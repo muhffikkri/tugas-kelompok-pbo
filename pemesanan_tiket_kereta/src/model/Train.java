@@ -10,7 +10,7 @@ import service.PrintableInfo;
  * Abstraksi data kereta untuk tipe kereta yang berbeda.
  * Menyediakan kontrak perhitungan tarif berdasarkan jarak.
  *
- * TODO Tim:
+ * TODO :
  * 1. Konfirmasi atribut minimum kereta pada class diagram final.
  * 2. Implement constructor, getter, dan setter.
  * 3. Lengkapi assertion kapasitas > 0 pada constructor/setter.

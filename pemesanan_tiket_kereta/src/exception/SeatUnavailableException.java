@@ -7,7 +7,6 @@ package exception;
 /**
  * Exception untuk menangani kondisi kursi sudah habis/tidak tersedia.
  *
- * Skeleton: hanya boundary exception (pesan), tanpa logika.
  */
 public class SeatUnavailableException extends Exception {
 	/************ATRIBUT************/
