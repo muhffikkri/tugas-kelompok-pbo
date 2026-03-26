@@ -26,9 +26,9 @@ public class Passenger extends Person {
         this.email = "";
     }
 
-    public Passenger(String nama, String nik, String noTelp, String email) throws InvalidNIKException {
-        super(nama, nik, noTelp);
-        validateNIK(nik);  // Validasi NIK saat pembuatan object
+    public Passenger(String namaLengkap, String nik, String noTelp, String email) throws InvalidNIKException {
+        super(namaLengkap, "", noTelp);
+        setNik(nik); // Validasi NIK melalui setter Person
         this.email = email;
     }
 
@@ -40,16 +40,9 @@ public class Passenger extends Person {
         this.email = email;
     }
 
-    public void validateNIK(String nik) throws InvalidNIKException {
-        // Validasi NIK harus 16 digit
-        if (nik == null || nik.length() != 16 || !nik.matches("\\d{16}")) {
-            throw new InvalidNIKException("NIK harus terdiri dari 16 digit angka");
-        }
-    }
-
     @Override
     public void printInfo() {
-        System.out.println("Nama Penumpang: " + getNama());
+        System.out.println("Nama Penumpang: " + getNamaLengkap());
         System.out.println("NIK: " + getNik());
         System.out.println("No. Telepon: " + getNoTelp());
         System.out.println("Email: " + email);

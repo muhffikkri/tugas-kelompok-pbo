@@ -10,7 +10,7 @@ import service.PrintableInfo;
 /**
  * Menyimpan detail transaksi pembayaran sebagai bagian komposisi dari Ticket.
  *
- * TODO Tim:
+ * TODO :
  * 1. Lengkapi constructor, getter, dan setter.
  * 2. Sinkronkan status pembayaran dengan proses pembayaran digital.
  * 3. Uji format waktu dan perubahan status transaksi.
@@ -29,9 +29,9 @@ public class PaymentRecord implements PrintableInfo {
     }
 
     public PaymentRecord(LocalDateTime waktu, String status, double jumlah) {
-        this.waktu = waktu;
-        this.status = status;
-        this.jumlah = jumlah;
+        setWaktu(waktu);
+        setStatus(status);
+        setJumlah(jumlah);
     }
 
     public LocalDateTime getWaktu() {
@@ -39,6 +39,9 @@ public class PaymentRecord implements PrintableInfo {
     }
 
     public void setWaktu(LocalDateTime waktu) {
+        if (waktu == null) {
+            throw new IllegalArgumentException("Waktu transaksi tidak boleh null");
+        }
         this.waktu = waktu;
     }
 
@@ -48,9 +51,13 @@ public class PaymentRecord implements PrintableInfo {
 
     public void setStatus(String status) {
         // Validasi status pembayaran
-        if (status.equals("PENDING") || status.equals("COMPLETED") || status.equals("FAILED")) {
-            this.status = status;
+        if (status == null || status.isBlank()) {
+            throw new IllegalArgumentException("Status pembayaran tidak boleh kosong");
         }
+        if (!status.equals("PENDING") && !status.equals("COMPLETED") && !status.equals("FAILED")) {
+            throw new IllegalArgumentException("Status pembayaran tidak valid");
+        }
+        this.status = status;
     }
 
     public double getJumlah() {
@@ -58,6 +65,10 @@ public class PaymentRecord implements PrintableInfo {
     }
 
     public void setJumlah(double jumlah) {
+        if (Double.isNaN(jumlah) || Double.isInfinite(jumlah) || jumlah < 0) {
+            throw new IllegalArgumentException("Jumlah pembayaran tidak valid");
+        }
+        assert jumlah >= 0 : "Jumlah pembayaran harus >= 0";
         this.jumlah = jumlah;
     }
 

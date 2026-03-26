@@ -8,7 +8,7 @@ package model;
  * Merepresentasikan kereta kelas eksekutif.
  * Menyediakan placeholder perhitungan tarif khusus executive.
  *
- * TODO Tim:
+ * TODO :
  * 1. Tentukan formula tarif executive (base fare + surcharge).
  * 2. Isi constructor dengan parameter turunan yang dibutuhkan.
  */
@@ -22,8 +22,8 @@ public class ExecutiveTrain extends Train {
         this.surchargeRate = 0;
     }
 
-    public ExecutiveTrain(String idTrain, String namaTrain, int kapasitas, double surchargeRate) {
-        super(idTrain, namaTrain, kapasitas);
+    public ExecutiveTrain(String idTrain, String namaKereta, int kapasitas, double surchargeRate) {
+        super(idTrain, namaKereta, kapasitas);
         this.surchargeRate = surchargeRate;
     }
 
@@ -47,7 +47,7 @@ public class ExecutiveTrain extends Train {
     public void printInfo() {
         System.out.println("=== Kereta Eksekutif ===");
         System.out.println("ID: " + getIdTrain());
-        System.out.println("Nama: " + getNamaTrain());
+        System.out.println("Nama: " + getNamaKereta());
         System.out.println("Kapasitas: " + getKapasitas());
         System.out.println("Surcharge Rate: " + (surchargeRate * 100) + "%");
     }

@@ -8,7 +8,7 @@ package model;
  * Merepresentasikan kereta kelas ekonomi.
  * Menyediakan placeholder perhitungan tarif khusus economy.
  *
- * TODO Tim:
+ * TODO :
  * 1. Tentukan formula tarif economy.
  * 2. Sinkronisasi atribut dengan kebutuhan Schedule.
  * 3. Uji batas jarak minimum dan maksimum untuk tarif.
@@ -23,8 +23,8 @@ public class EconomyTrain extends Train {
         this.discountRate = 0;
     }
 
-    public EconomyTrain(String idTrain, String namaTrain, int kapasitas, double discountRate) {
-        super(idTrain, namaTrain, kapasitas);
+    public EconomyTrain(String idTrain, String namaKereta, int kapasitas, double discountRate) {
+        super(idTrain, namaKereta, kapasitas);
         this.discountRate = discountRate;
     }
 
@@ -48,7 +48,7 @@ public class EconomyTrain extends Train {
     public void printInfo() {
         System.out.println("=== Kereta Ekonomi ===");
         System.out.println("ID: " + getIdTrain());
-        System.out.println("Nama: " + getNamaTrain());
+        System.out.println("Nama: " + getNamaKereta());
         System.out.println("Kapasitas: " + getKapasitas());
         System.out.println("Discount Rate: " + (discountRate * 100) + "%");
     }

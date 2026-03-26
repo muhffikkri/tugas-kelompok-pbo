@@ -12,9 +12,9 @@ import service.PrintableInfo;
  *
  * RELASI DI TICKET:
  * ================
- * Ticket ●────── PaymentRecord   (solid diamond = KOMPOSISI/strong ownership)
- * Ticket ───── Passenger         (plain line = ASOSIASI/weak)
- * Ticket ───── Schedule          (plain line = ASOSIASI/weak)
+ * Ticket <*>----- PaymentRecord  (solid diamond = KOMPOSISI/strong ownership)
+ * Ticket ----- Passenger         (plain line = ASOSIASI/weak)
+ * Ticket ----- Schedule          (plain line = ASOSIASI/weak)
  *
  * TODO Tim:
  * 1. Lengkapi constructor, getter, setter, dan identitas tiket.
@@ -25,21 +25,21 @@ import service.PrintableInfo;
 public class Ticket implements PrintableInfo {
     /****** RELASI DI TICKET ******
      * 
-     *          Ticket
-     *       ●  │  ─
-     *   Komposisi Asosiasi
-     *       │       │
-     *   ┌───┴──┬────┴───┐
-     *   ▼      ▼        ▼
-     * Payment Passenger Schedule
-     * Record  (mandiri) (mandiri)
+    *          Ticket
+    *       <*> |  -
+    *   Komposisi  Asosiasi
+    *        |        |
+    *   +----+---+----+----+
+    *   v        v         v
+    * Payment  Passenger  Schedule
+    * Record   (mandiri)  (mandiri)
      * (child:
      *  hidup
      *  jika
      *  parent
      *  ada)
      * 
-     * ● KOMPOSISI: Lifecycle dependent
+    * <*> KOMPOSISI: Lifecycle dependent
      * - PaymentRecord HANYA ada jika Ticket ada
      * - Parent CREATE & OWN child sepenuhnya
      * - Jika Ticket dihapus → PaymentRecord IKUT DIHAPUS
@@ -51,7 +51,7 @@ public class Ticket implements PrintableInfo {
      *****************************/
     
     /************ATRIBUT************/
-    private String idTicket;
+    private String idTiket;
     
     /** ─ ASOSIASI: Passenger dapat hidup mandiri tanpa Ticket */
     private Passenger passenger;
@@ -59,9 +59,9 @@ public class Ticket implements PrintableInfo {
     /** ─ ASOSIASI: Schedule dapat hidup mandiri tanpa Ticket */
     private Schedule schedule;
     
-    /****** ⭐ KOMPOSISI PAYMENT RECORD ⭐ ******
+    /****** KOMPOSISI PAYMENT RECORD ******
      * 
-     * ● KOMPOSISI → PaymentRecord
+    * <*> KOMPOSISI -> PaymentRecord
      * 
      * Parent: Ticket
      * Child: PaymentRecord
@@ -73,12 +73,12 @@ public class Ticket implements PrintableInfo {
      * 4. Lifecycle PaymentRecord bergantung TOTAL pada Ticket
      * 5. 1 PaymentRecord hanya untuk 1 Ticket (1:1)
      *******************************************/
-    /** ● KOMPOSISI: PaymentRecord hanya ada jika Ticket ada (lifecycle dependent) */
+    /** <*> KOMPOSISI: PaymentRecord hanya ada jika Ticket ada (lifecycle dependent) */
     private PaymentRecord paymentRecord;
 
     /************METHOD************/
     public Ticket() {
-        this.idTicket = "";
+        this.idTiket = "";
         this.passenger = null;
         this.schedule = null;
         
@@ -89,8 +89,8 @@ public class Ticket implements PrintableInfo {
         this.paymentRecord = new PaymentRecord();
     }
 
-    public Ticket(String idTicket, Passenger passenger, Schedule schedule) {
-        this.idTicket = idTicket;
+    public Ticket(String idTiket, Passenger passenger, Schedule schedule) {
+        setIdTiket(idTiket);
         
         // ASOSIASI (bukan komposisi):
         this.passenger = passenger;  // Passenger bisa hidup TANPA Ticket
@@ -103,12 +103,16 @@ public class Ticket implements PrintableInfo {
         this.paymentRecord = new PaymentRecord();
     }
 
-    public String getIdTicket() {
-        return idTicket;
+    public String getIdTiket() {
+        return idTiket;
     }
 
-    public void setIdTicket(String idTicket) {
-        this.idTicket = idTicket;
+    public void setIdTiket(String idTiket) {
+        if (idTiket == null || idTiket.isBlank()) {
+            throw new IllegalArgumentException("ID tiket tidak boleh kosong");
+        }
+        assert !idTiket.isBlank() : "ID tiket harus terisi";
+        this.idTiket = idTiket;
     }
 
     public Passenger getPassenger() {
@@ -116,6 +120,9 @@ public class Ticket implements PrintableInfo {
     }
 
     public void setPassenger(Passenger passenger) {
+        if (passenger == null) {
+            throw new IllegalArgumentException("Passenger tidak boleh null");
+        }
         this.passenger = passenger;
     }
 
@@ -124,6 +131,9 @@ public class Ticket implements PrintableInfo {
     }
 
     public void setSchedule(Schedule schedule) {
+        if (schedule == null) {
+            throw new IllegalArgumentException("Schedule tidak boleh null");
+        }
         this.schedule = schedule;
     }
 
@@ -134,7 +144,7 @@ public class Ticket implements PrintableInfo {
     @Override
     public void printInfo() {
         System.out.println("========== TIKET KERETA ==========");
-        System.out.println("ID Tiket: " + idTicket);
+        System.out.println("ID Tiket: " + idTiket);
         if (passenger != null) {
             System.out.println("\n--- Data Penumpang ---");
             passenger.printInfo();

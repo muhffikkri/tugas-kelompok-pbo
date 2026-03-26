@@ -5,6 +5,7 @@
 package model;
 
 import service.PrintableInfo;
+import exception.InvalidNIKException;
 
 /**
  * Abstraksi umum untuk seluruh entitas individu pada sistem.
@@ -17,36 +18,39 @@ import service.PrintableInfo;
  */
 public abstract class Person implements PrintableInfo {
     /************ATRIBUT************/
-    private String nama;
+    private String namaLengkap;
     private String nik;
     private String noTelp;
 
     /************METHOD************/
     protected Person() {
-        this.nama = "";
+        this.namaLengkap = "";
         this.nik = "";
         this.noTelp = "";
     }
 
-    protected Person(String nama, String nik, String noTelp) {
-        this.nama = nama;
+    protected Person(String namaLengkap, String nik, String noTelp) {
+        this.namaLengkap = namaLengkap;
         this.nik = nik;
         this.noTelp = noTelp;
     }
 
-    public String getNama() {
-        return nama;
+    public String getNamaLengkap() {
+        return namaLengkap;
     }
 
-    public void setNama(String nama) {
-        this.nama = nama;
+    public void setNamaLengkap(String namaLengkap) {
+        this.namaLengkap = namaLengkap;
     }
 
     public String getNik() {
         return nik;
     }
 
-    public void setNik(String nik) {
+    public void setNik(String nik) throws InvalidNIKException {
+        if (nik == null || nik.length() != 16 || !nik.matches("\\d{16}")) {
+            throw new InvalidNIKException("NIK harus terdiri dari 16 digit angka");
+        }
         this.nik = nik;
     }
 

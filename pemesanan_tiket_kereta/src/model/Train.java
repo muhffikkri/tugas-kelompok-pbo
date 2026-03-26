@@ -19,7 +19,7 @@ import service.PrintableInfo;
 public abstract class Train implements PrintableInfo {
     /************ATRIBUT************/
     private String idTrain;
-    private String namaTrain;
+    private String namaKereta;
     private int kapasitas;
 
     public static int TrainCounter;
@@ -27,14 +27,14 @@ public abstract class Train implements PrintableInfo {
     /************METHOD************/
     protected Train() {
         this.idTrain = "";
-        this.namaTrain = "";
+        this.namaKereta = "";
         this.kapasitas = 0;
     }
 
-    protected Train(String idTrain, String namaTrain, int kapasitas) {
-        assert kapasitas > 0 : "Kapasitas kereta harus lebih dari 0";
+    protected Train(String idTrain, String namaKereta, int kapasitas) {
+        assert kapasitas > 0 : "Kapasitas kereta lebih dari 0";
         this.idTrain = idTrain;
-        this.namaTrain = namaTrain;
+        this.namaKereta = namaKereta;
         this.kapasitas = kapasitas;
         TrainCounter++;
     }
@@ -47,12 +47,12 @@ public abstract class Train implements PrintableInfo {
         this.idTrain = idTrain;
     }
 
-    public String getNamaTrain() {
-        return namaTrain;
+    public String getNamaKereta() {
+        return namaKereta;
     }
 
-    public void setNamaTrain(String namaTrain) {
-        this.namaTrain = namaTrain;
+    public void setNamaKereta(String namaKereta) {
+        this.namaKereta = namaKereta;
     }
 
     public int getKapasitas() {
@@ -60,7 +60,7 @@ public abstract class Train implements PrintableInfo {
     }
 
     public void setKapasitas(int kapasitas) {
-        assert kapasitas > 0 : "Kapasitas kereta harus lebih dari 0";
+        assert kapasitas > 0 : "Kapasitas kereta lebih dari 0";
         this.kapasitas = kapasitas;
     }
 

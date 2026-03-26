@@ -13,10 +13,10 @@ import service.PrintableInfo;
  *
  * RELASI AGREGASI:
  * ================
- * Schedule ◇────── Train       (weak ownership - Train mandiri)
- * Schedule ◇────── Station     (weak ownership - Station mandiri)
+ * Schedule <>----- Train       (weak ownership - Train mandiri)
+ * Schedule <>----- Station     (weak ownership - Station mandiri)
  *
- * TODO Tim:
+ * TODO :
  * 1. Pastikan relasi agregasi terdokumentasi di class diagram.
  * 2. Implement method overloading pencarian jadwal.
  * 3. Lengkapi constructor, getter, setter, dan validasi tanggal.
@@ -25,13 +25,12 @@ import service.PrintableInfo;
 public class Schedule implements PrintableInfo {
     /****** RELASI AGREGASI (WEAK OWNERSHIP) ******
      * 
-     *    Schedule
-     *       ◇ (diamond = agregasi/weak ownership)
-     *   ┌───┴───┬──────────┐
-     *   │       │          │
-     *   ▼       ▼          ▼
-     *  Train Station    Station
-     *         (Asal)   (Tujuan)
+    *    Schedule
+    *       <> (diamond = agregasi/weak ownership)
+    *   +-----------+------------+
+    *   |           |            |
+    *   v           v            v
+    *  Train     Station(Asal) Station(Tujuan)
      * 
      * Ciri Agregasi:
      * - Child (Train, Station) bisa HIDUP MANDIRI
@@ -45,7 +44,7 @@ public class Schedule implements PrintableInfo {
     
     /****** AGREGASI TRAIN ******
      * 
-     * ◇ AGREGASI → Train
+    * <> AGREGASI -> Train
      * 
      * Parent: Schedule
      * Child: Train
@@ -57,12 +56,12 @@ public class Schedule implements PrintableInfo {
      * 4. 1 Train bisa dipakai di MULTIPLE Schedule
      * 5. Train bisa exist TANPA Schedule
      *****************************/
-    /** ◇ AGREGASI: Train dapat hidup mandiri (digunakan di multiple schedule) */
+    /** <> AGREGASI: Train dapat hidup mandiri (digunakan di multiple schedule) */
     private Train train;
     
     /****** AGREGASI STATION ASAL ******
      * 
-     * ◇ AGREGASI → Station Asal
+    * <> AGREGASI -> Station Asal
      * 
      * Parent: Schedule
      * Child: Station (Asal)
@@ -74,12 +73,12 @@ public class Schedule implements PrintableInfo {
      * 4. 1 Station bisa dipakai di MULTIPLE Schedule
      * 5. Station bisa exist TANPA Schedule
      *****************************/
-    /** ◇ AGREGASI: Station asal dapat hidup mandiri (digunakan di multiple schedule) */
+    /** <> AGREGASI: Station asal dapat hidup mandiri (digunakan di multiple schedule) */
     private Station stationAsal;
     
     /****** AGREGASI STATION TUJUAN ******
      * 
-     * ◇ AGREGASI → Station Tujuan
+    * <> AGREGASI -> Station Tujuan
      * 
      * Parent: Schedule
      * Child: Station (Tujuan)
@@ -91,7 +90,7 @@ public class Schedule implements PrintableInfo {
      * 4. 1 Station bisa dipakai di MULTIPLE Schedule
      * 5. Station bisa exist TANPA Schedule
      *****************************/
-    /** ◇ AGREGASI: Station tujuan dapat hidup mandiri (digunakan di multiple schedule) */
+    /** <> AGREGASI: Station tujuan dapat hidup mandiri (digunakan di multiple schedule) */
     private Station stationTujuan;
     
     private LocalDate tanggalBerangkat;
@@ -172,24 +171,12 @@ public class Schedule implements PrintableInfo {
         this.tanggalBerangkat = tanggalBerangkat;
     }
 
-    public Schedule searchSchedule(String idSchedule) {
-        return null;
-    }
-
-    public Schedule searchSchedule(String kotaAsal, String kotaTujuan) {
-        return null;
-    }
-
-    public Schedule searchSchedule(String kotaAsal, String kotaTujuan, LocalDate tanggalBerangkat) {
-        return null;
-    }
-
     @Override
     public void printInfo() {
         if (train != null && stationAsal != null && stationTujuan != null) {
             System.out.println("ID Schedule: " + idSchedule);
-            System.out.println("Kereta: " + train.getNamaTrain());
-            System.out.println("Dari: " + stationAsal.getNama() + " -> Ke: " + stationTujuan.getNama());
+            System.out.println("Kereta: " + train.getNamaKereta());
+            System.out.println("Dari: " + stationAsal.getNamaStasiun() + " -> Ke: " + stationTujuan.getNamaStasiun());
             System.out.println("Tanggal: " + tanggalBerangkat);
         }
     }
