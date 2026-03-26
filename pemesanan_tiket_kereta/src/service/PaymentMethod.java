@@ -4,6 +4,8 @@
  */
 package service;
 
+import exception.InvalidBookingException;
+
 /**
  * Kontrak interface untuk seluruh metode pembayaran pada sistem.
  *
@@ -16,5 +18,5 @@ public interface PaymentMethod {
     /************ATRIBUT************/
 
     /************METHOD************/
-    void processPayment(double amount);
+    void processPayment(double amount) throws InvalidBookingException;
 }

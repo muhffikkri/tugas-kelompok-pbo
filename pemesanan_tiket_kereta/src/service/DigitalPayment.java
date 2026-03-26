@@ -15,38 +15,37 @@ import exception.InvalidBookingException;
  */
 public class DigitalPayment implements PaymentMethod {
     /************ATRIBUT************/
-    private String providerName;
+    private String namaProvider;
 
     /************METHOD************/
     public DigitalPayment() {
-        this.providerName = "";
+        this.namaProvider = "";
     }
     
     public DigitalPayment(String providerName) {
-        this.providerName = providerName;
+        this.namaProvider = providerName;
     }
 
-    public String getProviderName() {
-        return providerName;
+    public String getNamaProvider() {
+        return namaProvider;
     }
 
-    public void setProviderName(String providerName) {
-        this.providerName = providerName;
+    public void setNamaProvider(String namaProvider) {
+        this.namaProvider = namaProvider;
     }
 
     @Override
     public void processPayment(double amount) throws InvalidBookingException {
-        if (amount <= 0) {
-            throw new InvalidBookingException("Nominal kurang dari nol");
-        } else {
-            System.out.println("Pembayaran berhasil dilakukan dengan " + getProviderName() + " Sejumlah " + amount);
+        if (namaProvider == null || namaProvider.isBlank()) {
+            throw new InvalidBookingException("Provider pembayaran digital tidak boleh kosong");
         }
+        if (Double.isNaN(amount) || Double.isInfinite(amount) || amount <= 0) {
+            throw new InvalidBookingException("Nominal pembayaran harus lebih dari 0");
+        }
+        assert amount > 0 : "Nominal pembayaran harus > 0";
 
-        // Simulasi proses pembayaran digital
-        System.out.println("Memproses pembayaran digital...");
-        System.out.println("   Provider: " + providerName);
-        System.out.println("   Nominal: Rp " + String.format("%.2f", amount));
-        System.out.println("   Pembayaran berhasil diproses!");
-        System.out.println("   Status: COMPLETED");
+        // Skeleton method: hanya boundary & exception.
+        // TODO Tim: implement integrasi pembayaran dan update PaymentRecord.
+        throw new UnsupportedOperationException("processPayment belum diimplementasikan");
     }
 }
