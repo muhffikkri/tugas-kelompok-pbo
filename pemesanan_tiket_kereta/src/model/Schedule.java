@@ -43,12 +43,54 @@ public class Schedule implements PrintableInfo {
     /************ATRIBUT************/
     private String idSchedule;
     
+    /****** AGREGASI TRAIN ******
+     * 
+     * ◇ AGREGASI → Train
+     * 
+     * Parent: Schedule
+     * Child: Train
+     * 
+     * Ciri Agregasi (Weak Ownership):
+     * 1. Train TETAP HIDUP MANDIRI (tidak diciptakan Schedule)
+     * 2. Schedule hanya REFERENSI/MENGGUNAKAN Train yang sudah ada
+     * 3. Jika Schedule dihapus → Train TETAP ADA (tidak orphaned)
+     * 4. 1 Train bisa dipakai di MULTIPLE Schedule
+     * 5. Train bisa exist TANPA Schedule
+     *****************************/
     /** ◇ AGREGASI: Train dapat hidup mandiri (digunakan di multiple schedule) */
     private Train train;
     
+    /****** AGREGASI STATION ASAL ******
+     * 
+     * ◇ AGREGASI → Station Asal
+     * 
+     * Parent: Schedule
+     * Child: Station (Asal)
+     * 
+     * Ciri Agregasi (Weak Ownership):
+     * 1. Station Asal TETAP HIDUP MANDIRI (tidak diciptakan Schedule)
+     * 2. Schedule hanya REFERENSI/MENGGUNAKAN Station yang sudah ada
+     * 3. Jika Schedule dihapus → Station Asal TETAP ADA
+     * 4. 1 Station bisa dipakai di MULTIPLE Schedule
+     * 5. Station bisa exist TANPA Schedule
+     *****************************/
     /** ◇ AGREGASI: Station asal dapat hidup mandiri (digunakan di multiple schedule) */
     private Station stationAsal;
     
+    /****** AGREGASI STATION TUJUAN ******
+     * 
+     * ◇ AGREGASI → Station Tujuan
+     * 
+     * Parent: Schedule
+     * Child: Station (Tujuan)
+     * 
+     * Ciri Agregasi (Weak Ownership):
+     * 1. Station Tujuan TETAP HIDUP MANDIRI (tidak diciptakan Schedule)
+     * 2. Schedule hanya REFERENSI/MENGGUNAKAN Station yang sudah ada
+     * 3. Jika Schedule dihapus → Station Tujuan TETAP ADA
+     * 4. 1 Station bisa dipakai di MULTIPLE Schedule
+     * 5. Station bisa exist TANPA Schedule
+     *****************************/
     /** ◇ AGREGASI: Station tujuan dapat hidup mandiri (digunakan di multiple schedule) */
     private Station stationTujuan;
     
@@ -66,19 +108,25 @@ public class Schedule implements PrintableInfo {
     public Schedule(String idSchedule, Train train, Station stationAsal, Station stationTujuan, LocalDate tanggalBerangkat) {
         this.idSchedule = idSchedule;
         
-        // AGREGASI: Schedule hanya menyimpan REFERENSI ke Train
-        // Train tetap hidup mandiri dan bisa digunakan di schedule lain
-        // Jika Schedule dihapus, Train TIDAK ikut dihapus
+        // AGREGASI TRAIN
+        // Schedule HANYA menyimpan REFERENSI ke Train (weak ownership)
+        // Train TIDAK diciptakan Schedule, sudah ada sebelumnya
+        // Train bisa hidup TANPA Schedule
+        // Jika Schedule dihapus → Train TETAP ADA (1 Train bisa pakai di multiple Schedule)
         this.train = train;
         
-        // AGREGASI: Schedule hanya menyimpan REFERENSI ke Station asal
-        // Station asal tetap hidup mandiri dan bisa digunakan di schedule lain
-        // Jika Schedule dihapus, Station asal TIDAK ikut dihapus
+        // AGREGASI STATION ASAL
+        // Schedule HANYA menyimpan REFERENSI ke Station asal (weak ownership)
+        // Station asal TIDAK diciptakan Schedule, sudah ada sebelumnya
+        // Station bisa hidup TANPA Schedule
+        // Jika Schedule dihapus → Station asal TETAP ADA (1 Station bisa pakai di multiple Schedule)
         this.stationAsal = stationAsal;
         
-        // AGREGASI: Schedule hanya menyimpan REFERENSI ke Station tujuan
-        // Station tujuan tetap hidup mandiri dan bisa digunakan di schedule lain
-        // Jika Schedule dihapus, Station tujuan TIDAK ikut dihapus
+        // AGREGASI STATION TUJUAN 
+        // Schedule HANYA menyimpan REFERENSI ke Station tujuan (weak ownership)
+        // Station tujuan TIDAK diciptakan Schedule, sudah ada sebelumnya
+        // Station bisa hidup TANPA Schedule
+        // Jika Schedule dihapus → Station tujuan TETAP ADA (1 Station bisa pakai di multiple Schedule)
         this.stationTujuan = stationTujuan;
         
         this.tanggalBerangkat = tanggalBerangkat;

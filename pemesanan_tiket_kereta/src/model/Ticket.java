@@ -59,6 +59,20 @@ public class Ticket implements PrintableInfo {
     /** ─ ASOSIASI: Schedule dapat hidup mandiri tanpa Ticket */
     private Schedule schedule;
     
+    /****** ⭐ KOMPOSISI PAYMENT RECORD ⭐ ******
+     * 
+     * ● KOMPOSISI → PaymentRecord
+     * 
+     * Parent: Ticket
+     * Child: PaymentRecord
+     * 
+     * Ciri Komposisi (Strong Ownership):
+     * 1. PaymentRecord HANYA ada jika Ticket ada
+     * 2. Ticket CREATE & OWN PaymentRecord sepenuhnya
+     * 3. Jika Ticket dihapus → PaymentRecord IKUT DIHAPUS
+     * 4. Lifecycle PaymentRecord bergantung TOTAL pada Ticket
+     * 5. 1 PaymentRecord hanya untuk 1 Ticket (1:1)
+     *******************************************/
     /** ● KOMPOSISI: PaymentRecord hanya ada jika Ticket ada (lifecycle dependent) */
     private PaymentRecord paymentRecord;
 
@@ -67,21 +81,25 @@ public class Ticket implements PrintableInfo {
         this.idTicket = "";
         this.passenger = null;
         this.schedule = null;
-        // KOMPOSISI: PaymentRecord HANYA ada jika Ticket ada
-        // PaymentRecord dibuat otomatis saat Ticket dibuat
-        // Jika Ticket dihapus, PaymentRecord juga IKUT dihapus
+        
+        // KOMPOSISI PAYMENTRECORD 
+        // Ticket CREATE PaymentRecord otomatis (parent owns child)
+        // PaymentRecord baru dibuat saat Ticket dibuat
+        // Tidak ada PaymentRecord yang berdiri sendiri
         this.paymentRecord = new PaymentRecord();
     }
 
     public Ticket(String idTicket, Passenger passenger, Schedule schedule) {
         this.idTicket = idTicket;
-        this.passenger = passenger;  // ASOSIASI: Passenger mandiri, bisa hidup tanpa Ticket
-        this.schedule = schedule;    // ASOSIASI: Schedule mandiri, bisa hidup tanpa Ticket
         
-        // KOMPOSISI: PaymentRecord HANYA ada jika Ticket ada
-        // PaymentRecord dibuat otomatis saat Ticket dibuat (part-of relationship)
-        // Lifecycle PaymentRecord bergantung pada lifecycle Ticket
-        // Jika Ticket dihapus, PaymentRecord juga IKUT dihapus
+        // ASOSIASI (bukan komposisi):
+        this.passenger = passenger;  // Passenger bisa hidup TANPA Ticket
+        this.schedule = schedule;    // Schedule bisa hidup TANPA Ticket
+        
+        //KOMPOSISI PAYMENTRECORD 
+        // Ticket SELALU membuat PaymentRecord baru (strong ownership)
+        // PaymentRecord lifecycle bergantung TOTAL pada Ticket
+        // Jika Ticket dihapus → PaymentRecord IKUT DIHAPUS (not orphaned)
         this.paymentRecord = new PaymentRecord();
     }
 
