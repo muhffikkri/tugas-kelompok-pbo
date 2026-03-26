@@ -11,6 +11,11 @@ import service.PrintableInfo;
  * Menyimpan informasi jadwal perjalanan kereta.
  * Kelas ini menerapkan agregasi terhadap Train, Station asal, dan Station tujuan.
  *
+ * RELASI AGREGASI:
+ * ================
+ * Schedule ◇────── Train       (weak ownership - Train mandiri)
+ * Schedule ◇────── Station     (weak ownership - Station mandiri)
+ *
  * TODO Tim:
  * 1. Pastikan relasi agregasi terdokumentasi di class diagram.
  * 2. Implement method overloading pencarian jadwal.
@@ -18,11 +23,35 @@ import service.PrintableInfo;
  * 4. Uji pencarian jadwal berdasarkan beberapa kombinasi parameter.
  */
 public class Schedule implements PrintableInfo {
+    /****** RELASI AGREGASI (WEAK OWNERSHIP) ******
+     * 
+     *    Schedule
+     *       ◇ (diamond = agregasi/weak ownership)
+     *   ┌───┴───┬──────────┐
+     *   │       │          │
+     *   ▼       ▼          ▼
+     *  Train Station    Station
+     *         (Asal)   (Tujuan)
+     * 
+     * Ciri Agregasi:
+     * - Child (Train, Station) bisa HIDUP MANDIRI
+     * - Parent (Schedule) hanya REFERENSI, tidak CREATE
+     * - Jika Schedule dihapus, Train/Station TETAP ADA
+     * - 1 Train/Station bisa pakai di MULTIPLE Schedule
+     *********************************************/
+    
     /************ATRIBUT************/
     private String idSchedule;
+    
+    /** ◇ AGREGASI: Train dapat hidup mandiri (digunakan di multiple schedule) */
     private Train train;
+    
+    /** ◇ AGREGASI: Station asal dapat hidup mandiri (digunakan di multiple schedule) */
     private Station stationAsal;
+    
+    /** ◇ AGREGASI: Station tujuan dapat hidup mandiri (digunakan di multiple schedule) */
     private Station stationTujuan;
+    
     private LocalDate tanggalBerangkat;
 
     /************METHOD************/
@@ -36,9 +65,22 @@ public class Schedule implements PrintableInfo {
 
     public Schedule(String idSchedule, Train train, Station stationAsal, Station stationTujuan, LocalDate tanggalBerangkat) {
         this.idSchedule = idSchedule;
-        this.train = train;  // Agregasi: Train dapat hidup mandiri
-        this.stationAsal = stationAsal;  // Agregasi: Station asal dapat hidup mandiri
-        this.stationTujuan = stationTujuan;  // Agregasi: Station tujuan dapat hidup mandiri
+        
+        // AGREGASI: Schedule hanya menyimpan REFERENSI ke Train
+        // Train tetap hidup mandiri dan bisa digunakan di schedule lain
+        // Jika Schedule dihapus, Train TIDAK ikut dihapus
+        this.train = train;
+        
+        // AGREGASI: Schedule hanya menyimpan REFERENSI ke Station asal
+        // Station asal tetap hidup mandiri dan bisa digunakan di schedule lain
+        // Jika Schedule dihapus, Station asal TIDAK ikut dihapus
+        this.stationAsal = stationAsal;
+        
+        // AGREGASI: Schedule hanya menyimpan REFERENSI ke Station tujuan
+        // Station tujuan tetap hidup mandiri dan bisa digunakan di schedule lain
+        // Jika Schedule dihapus, Station tujuan TIDAK ikut dihapus
+        this.stationTujuan = stationTujuan;
+        
         this.tanggalBerangkat = tanggalBerangkat;
     }
 
