@@ -22,22 +22,36 @@ public class Passenger extends Person {
 
     /************METHOD************/
     public Passenger() {
+        super();
+        this.email = "";
     }
 
     public Passenger(String nama, String nik, String noTelp, String email) throws InvalidNIKException {
+        super(nama, nik, noTelp);
+        validateNIK(nik);  // Validasi NIK saat pembuatan object
+        this.email = email;
     }
 
     public String getEmail() {
-        return null;
+        return email;
     }
 
     public void setEmail(String email) {
+        this.email = email;
     }
 
     public void validateNIK(String nik) throws InvalidNIKException {
+        // Validasi NIK harus 16 digit
+        if (nik == null || nik.length() != 16 || !nik.matches("\\d{16}")) {
+            throw new InvalidNIKException("NIK harus terdiri dari 16 digit angka");
+        }
     }
 
     @Override
     public void printInfo() {
+        System.out.println("Nama Penumpang: " + getNama());
+        System.out.println("NIK: " + getNik());
+        System.out.println("No. Telepon: " + getNoTelp());
+        System.out.println("Email: " + email);
     }
 }

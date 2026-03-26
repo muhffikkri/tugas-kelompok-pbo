@@ -25,39 +25,63 @@ public class Ticket implements PrintableInfo {
 
     /************METHOD************/
     public Ticket() {
-        this.paymentRecord = new PaymentRecord();
+        this.idTicket = "";
+        this.passenger = null;
+        this.schedule = null;
+        this.paymentRecord = new PaymentRecord();  // Komposisi: PaymentRecord tergantung pada Ticket
     }
 
     public Ticket(String idTicket, Passenger passenger, Schedule schedule) {
-        this.paymentRecord = new PaymentRecord();
+        this.idTicket = idTicket;
+        this.passenger = passenger;
+        this.schedule = schedule;
+        this.paymentRecord = new PaymentRecord();  // Komposisi: PaymentRecord dibuat bersamaan dengan Ticket
     }
 
     public String getIdTicket() {
-        return null;
+        return idTicket;
     }
 
     public void setIdTicket(String idTicket) {
+        this.idTicket = idTicket;
     }
 
     public Passenger getPassenger() {
-        return null;
+        return passenger;
     }
 
     public void setPassenger(Passenger passenger) {
+        this.passenger = passenger;
     }
 
     public Schedule getSchedule() {
-        return null;
+        return schedule;
     }
 
     public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
     }
 
     public PaymentRecord getPaymentRecord() {
-        return null;
+        return paymentRecord;
     }
 
     @Override
     public void printInfo() {
+        System.out.println("========== TIKET KERETA ==========");
+        System.out.println("ID Tiket: " + idTicket);
+        if (passenger != null) {
+            System.out.println("\n--- Data Penumpang ---");
+            passenger.printInfo();
+        }
+        if (schedule != null) {
+            System.out.println("\n--- Data Jadwal ---");
+            schedule.printInfo();
+        }
+        if (paymentRecord != null) {
+            System.out.println("\n--- Data Pembayaran ---");
+            paymentRecord.printInfo();
+        }
+        System.out.println("==================================");
     }
 }

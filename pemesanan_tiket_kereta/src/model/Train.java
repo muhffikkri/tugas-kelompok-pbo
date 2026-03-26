@@ -25,6 +25,45 @@ public abstract class Train implements PrintableInfo {
     public static int TrainCounter;
 
     /************METHOD************/
+    protected Train() {
+        this.idTrain = "";
+        this.namaTrain = "";
+        this.kapasitas = 0;
+    }
+
+    protected Train(String idTrain, String namaTrain, int kapasitas) {
+        assert kapasitas > 0 : "Kapasitas kereta harus lebih dari 0";
+        this.idTrain = idTrain;
+        this.namaTrain = namaTrain;
+        this.kapasitas = kapasitas;
+        TrainCounter++;
+    }
+
+    public String getIdTrain() {
+        return idTrain;
+    }
+
+    public void setIdTrain(String idTrain) {
+        this.idTrain = idTrain;
+    }
+
+    public String getNamaTrain() {
+        return namaTrain;
+    }
+
+    public void setNamaTrain(String namaTrain) {
+        this.namaTrain = namaTrain;
+    }
+
+    public int getKapasitas() {
+        return kapasitas;
+    }
+
+    public void setKapasitas(int kapasitas) {
+        assert kapasitas > 0 : "Kapasitas kereta harus lebih dari 0";
+        this.kapasitas = kapasitas;
+    }
+
     public abstract double hitungTarif(int jarak);
 
     @Override

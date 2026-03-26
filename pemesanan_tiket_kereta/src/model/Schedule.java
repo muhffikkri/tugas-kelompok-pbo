@@ -27,44 +27,59 @@ public class Schedule implements PrintableInfo {
 
     /************METHOD************/
     public Schedule() {
+        this.idSchedule = "";
+        this.train = null;
+        this.stationAsal = null;
+        this.stationTujuan = null;
+        this.tanggalBerangkat = null;
     }
 
     public Schedule(String idSchedule, Train train, Station stationAsal, Station stationTujuan, LocalDate tanggalBerangkat) {
+        this.idSchedule = idSchedule;
+        this.train = train;  // Agregasi: Train dapat hidup mandiri
+        this.stationAsal = stationAsal;  // Agregasi: Station asal dapat hidup mandiri
+        this.stationTujuan = stationTujuan;  // Agregasi: Station tujuan dapat hidup mandiri
+        this.tanggalBerangkat = tanggalBerangkat;
     }
 
     public String getIdSchedule() {
-        return null;
+        return idSchedule;
     }
 
     public void setIdSchedule(String idSchedule) {
+        this.idSchedule = idSchedule;
     }
 
     public Train getTrain() {
-        return null;
+        return train;
     }
 
     public void setTrain(Train train) {
+        this.train = train;
     }
 
     public Station getStationAsal() {
-        return null;
+        return stationAsal;
     }
 
     public void setStationAsal(Station stationAsal) {
+        this.stationAsal = stationAsal;
     }
 
     public Station getStationTujuan() {
-        return null;
+        return stationTujuan;
     }
 
     public void setStationTujuan(Station stationTujuan) {
+        this.stationTujuan = stationTujuan;
     }
 
     public LocalDate getTanggalBerangkat() {
-        return null;
+        return tanggalBerangkat;
     }
 
     public void setTanggalBerangkat(LocalDate tanggalBerangkat) {
+        this.tanggalBerangkat = tanggalBerangkat;
     }
 
     public Schedule searchSchedule(String idSchedule) {
@@ -81,5 +96,11 @@ public class Schedule implements PrintableInfo {
 
     @Override
     public void printInfo() {
+        if (train != null && stationAsal != null && stationTujuan != null) {
+            System.out.println("ID Schedule: " + idSchedule);
+            System.out.println("Kereta: " + train.getNamaTrain());
+            System.out.println("Dari: " + stationAsal.getNama() + " -> Ke: " + stationTujuan.getNama());
+            System.out.println("Tanggal: " + tanggalBerangkat);
+        }
     }
 }

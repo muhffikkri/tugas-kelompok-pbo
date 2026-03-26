@@ -18,26 +18,37 @@ public class ExecutiveTrain extends Train {
 
     /************METHOD************/
     public ExecutiveTrain() {
+        super();
+        this.surchargeRate = 0;
     }
 
     public ExecutiveTrain(String idTrain, String namaTrain, int kapasitas, double surchargeRate) {
         super(idTrain, namaTrain, kapasitas);
+        this.surchargeRate = surchargeRate;
     }
 
     public double getSurchargeRate() {
-        return 0;
+        return surchargeRate;
     }
 
     public void setSurchargeRate(double surchargeRate) {
+        this.surchargeRate = surchargeRate;
     }
 
     @Override
     public double hitungTarif(int jarak) {
-        // TODO : Menghitung tarif untuk kereta eksekutif
-        return 0;
+        // Tarif eksekutif: Rp 2000 per km + surcharge
+        double baseTarif = jarak * 2000;
+        double tarifDenganSurcharge = baseTarif * (1 + surchargeRate);
+        return tarifDenganSurcharge;
     }
 
     @Override
     public void printInfo() {
+        System.out.println("=== Kereta Eksekutif ===");
+        System.out.println("ID: " + getIdTrain());
+        System.out.println("Nama: " + getNamaTrain());
+        System.out.println("Kapasitas: " + getKapasitas());
+        System.out.println("Surcharge Rate: " + (surchargeRate * 100) + "%");
     }
 }
