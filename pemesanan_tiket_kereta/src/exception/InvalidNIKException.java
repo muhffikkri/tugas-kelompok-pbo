@@ -7,7 +7,7 @@ package exception;
 /**
  * Exception untuk menangani kondisi NIK penumpang tidak sesuai format.
  *
- * TODO Tim:
+ * TODO :
  * 1. Standarisasi pesan error untuk validasi NIK.
  * 2. Verifikasi exception ditangani benar di layer aplikasi.
  */

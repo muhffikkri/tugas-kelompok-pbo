@@ -23,30 +23,39 @@ public abstract class Person implements PrintableInfo {
 
     /************METHOD************/
     protected Person() {
+        this.nama = "";
+        this.nik = "";
+        this.noTelp = "";
     }
 
     protected Person(String nama, String nik, String noTelp) {
+        this.nama = nama;
+        this.nik = nik;
+        this.noTelp = noTelp;
     }
 
     public String getNama() {
-        return null;
+        return nama;
     }
 
     public void setNama(String nama) {
+        this.nama = nama;
     }
 
     public String getNik() {
-        return null;
+        return nik;
     }
 
     public void setNik(String nik) {
+        this.nik = nik;
     }
 
     public String getNoTelp() {
-        return null;
+        return noTelp;
     }
 
     public void setNoTelp(String noTelp) {
+        this.noTelp = noTelp;
     }
 
     public abstract void printInfo();

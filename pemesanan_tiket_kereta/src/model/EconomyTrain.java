@@ -19,26 +19,37 @@ public class EconomyTrain extends Train {
 
     /************METHOD************/
     public EconomyTrain() {
+        super();
+        this.discountRate = 0;
     }
 
     public EconomyTrain(String idTrain, String namaTrain, int kapasitas, double discountRate) {
         super(idTrain, namaTrain, kapasitas);
+        this.discountRate = discountRate;
     }
 
     public double getDiscountRate() {
-        return 0;
+        return discountRate;
     }
 
     public void setDiscountRate(double discountRate) {
+        this.discountRate = discountRate;
     }
 
     @Override
     public double hitungTarif(int jarak) {
-        // TODO : Hitung tarif untuk kereta ekonomi
-        return 0;
+        // Tarif ekonomi: Rp 1000 per km dengan diskon
+        double baseTarif = jarak * 1000;
+        double discountedTarif = baseTarif * (1 - discountRate);
+        return discountedTarif;
     }
 
     @Override
     public void printInfo() {
+        System.out.println("=== Kereta Ekonomi ===");
+        System.out.println("ID: " + getIdTrain());
+        System.out.println("Nama: " + getNamaTrain());
+        System.out.println("Kapasitas: " + getKapasitas());
+        System.out.println("Discount Rate: " + (discountRate * 100) + "%");
     }
 }

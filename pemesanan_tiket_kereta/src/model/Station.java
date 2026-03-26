@@ -21,33 +21,43 @@ public class Station implements PrintableInfo {
 
     /************METHOD************/
     public Station() {
+        this.id = "";
+        this.nama = "";
+        this.kota = "";
     }
 
     public Station(String id, String nama, String kota) {
+        this.id = id;
+        this.nama = nama;
+        this.kota = kota;
     }
 
     public String getId() {
-        return null;
+        return id;
     }
 
     public void setId(String id) {
+        this.id = id;
     }
 
     public String getNama() {
-        return null;
+        return nama;
     }
 
     public void setNama(String nama) {
+        this.nama = nama;
     }
 
     public String getKota() {
-        return null;
+        return kota;
     }
 
     public void setKota(String kota) {
+        this.kota = kota;
     }
 
     @Override
     public void printInfo() {
+        System.out.println("Stasiun: " + nama + " (" + id + ") - " + kota);
     }
 }

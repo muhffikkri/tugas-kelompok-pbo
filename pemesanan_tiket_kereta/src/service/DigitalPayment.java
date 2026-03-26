@@ -41,5 +41,12 @@ public class DigitalPayment implements PaymentMethod {
         } else {
             System.out.println("Pembayaran berhasil dilakukan dengan " + getProviderName() + " Sejumlah " + amount);
         }
+
+        // Simulasi proses pembayaran digital
+        System.out.println("Memproses pembayaran digital...");
+        System.out.println("   Provider: " + providerName);
+        System.out.println("   Nominal: Rp " + String.format("%.2f", amount));
+        System.out.println("   Pembayaran berhasil diproses!");
+        System.out.println("   Status: COMPLETED");
     }
 }
