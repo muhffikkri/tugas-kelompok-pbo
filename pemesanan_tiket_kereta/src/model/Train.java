@@ -1,7 +1,3 @@
-/* Nama File    : Train.java
- * Deskripsi    : Kelas abstrak sebagai dasar data kereta
- * Tanggal      : 23 Maret 2026
- */
 package model;
 
 import service.PrintableInfo;
@@ -17,14 +13,12 @@ import service.PrintableInfo;
  * 4. Tambahkan pengujian assertion aktif dengan flag -ea.
  */
 public abstract class Train implements PrintableInfo {
-    /************ATRIBUT************/
     private String idTrain;
     private String namaKereta;
     private int kapasitas;
 
     public static int TrainCounter;
 
-    /************METHOD************/
     protected Train() {
         this.idTrain = "";
         this.namaKereta = "";

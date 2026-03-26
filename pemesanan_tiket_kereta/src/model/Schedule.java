@@ -106,26 +106,8 @@ public class Schedule implements PrintableInfo {
 
     public Schedule(String idSchedule, Train train, Station stationAsal, Station stationTujuan, LocalDate tanggalBerangkat) {
         this.idSchedule = idSchedule;
-        
-        // AGREGASI TRAIN
-        // Schedule HANYA menyimpan REFERENSI ke Train (weak ownership)
-        // Train TIDAK diciptakan Schedule, sudah ada sebelumnya
-        // Train bisa hidup TANPA Schedule
-        // Jika Schedule dihapus → Train TETAP ADA (1 Train bisa pakai di multiple Schedule)
         this.train = train;
-        
-        // AGREGASI STATION ASAL
-        // Schedule HANYA menyimpan REFERENSI ke Station asal (weak ownership)
-        // Station asal TIDAK diciptakan Schedule, sudah ada sebelumnya
-        // Station bisa hidup TANPA Schedule
-        // Jika Schedule dihapus → Station asal TETAP ADA (1 Station bisa pakai di multiple Schedule)
         this.stationAsal = stationAsal;
-        
-        // AGREGASI STATION TUJUAN 
-        // Schedule HANYA menyimpan REFERENSI ke Station tujuan (weak ownership)
-        // Station tujuan TIDAK diciptakan Schedule, sudah ada sebelumnya
-        // Station bisa hidup TANPA Schedule
-        // Jika Schedule dihapus → Station tujuan TETAP ADA (1 Station bisa pakai di multiple Schedule)
         this.stationTujuan = stationTujuan;
         
         this.tanggalBerangkat = tanggalBerangkat;

@@ -1,7 +1,3 @@
-/* Nama File    : Ticket.java
- * Deskripsi    : Representasi tiket yang berelasi dengan Passenger, Schedule, dan PaymentRecord
- * Tanggal      : 23 Maret 2026
- */
 package model;
 
 import service.PrintableInfo;
@@ -55,8 +51,6 @@ public class Ticket implements PrintableInfo {
     
     /** ─ ASOSIASI: Passenger dapat hidup mandiri tanpa Ticket */
     private Passenger passenger;
-    
-    /** ─ ASOSIASI: Schedule dapat hidup mandiri tanpa Ticket */
     private Schedule schedule;
     
     /****** KOMPOSISI PAYMENT RECORD ******
@@ -76,16 +70,10 @@ public class Ticket implements PrintableInfo {
     /** <*> KOMPOSISI: PaymentRecord hanya ada jika Ticket ada (lifecycle dependent) */
     private PaymentRecord paymentRecord;
 
-    /************METHOD************/
     public Ticket() {
         this.idTiket = "";
         this.passenger = null;
         this.schedule = null;
-        
-        // KOMPOSISI PAYMENTRECORD 
-        // Ticket CREATE PaymentRecord otomatis (parent owns child)
-        // PaymentRecord baru dibuat saat Ticket dibuat
-        // Tidak ada PaymentRecord yang berdiri sendiri
         this.paymentRecord = new PaymentRecord();
     }
 
