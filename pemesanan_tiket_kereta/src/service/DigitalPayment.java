@@ -3,6 +3,7 @@
  * Tanggal      : 23 Maret 2026
  */
 package service;
+import exception.InvalidBookingException;
 
 /**
  * Implementasi awal metode pembayaran digital.
@@ -18,19 +19,27 @@ public class DigitalPayment implements PaymentMethod {
 
     /************METHOD************/
     public DigitalPayment() {
+        this.providerName = "";
     }
-
+    
     public DigitalPayment(String providerName) {
+        this.providerName = providerName;
     }
 
     public String getProviderName() {
-        return null;
+        return providerName;
     }
 
     public void setProviderName(String providerName) {
+        this.providerName = providerName;
     }
 
     @Override
-    public void processPayment(double amount) {
+    public void processPayment(double amount) throws InvalidBookingException {
+        if (amount <= 0) {
+            throw new InvalidBookingException("Nominal kurang dari nol");
+        } else {
+            System.out.println("Pembayaran berhasil dilakukan dengan " + getProviderName() + " Sejumlah " + amount);
+        }
     }
 }
