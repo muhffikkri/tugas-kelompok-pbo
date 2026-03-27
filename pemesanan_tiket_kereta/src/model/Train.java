@@ -1,8 +1,15 @@
+/* Nama File    : Train.java
+ * Deskripsi    : Kelas abstrak sebagai dasar data kereta
+ * Tanggal      : 23 Maret 2026
+ */
 package model;
 
 import service.PrintableInfo;
 
 /**
+ * Abstraksi data kereta untuk tipe kereta yang berbeda.
+ * Menyediakan kontrak perhitungan tarif berdasarkan jarak.
+ *
  * TODO Tim:
  * 1. Konfirmasi atribut minimum kereta pada class diagram final.
  * 2. Implement constructor, getter, dan setter.
@@ -10,12 +17,14 @@ import service.PrintableInfo;
  * 4. Tambahkan pengujian assertion aktif dengan flag -ea.
  */
 public abstract class Train implements PrintableInfo {
+    /************ATRIBUT************/
     private String idTrain;
     private String namaTrain;
     private int kapasitas;
 
     public static int TrainCounter;
 
+    /************METHOD************/
     protected Train() {
         this.idTrain = "";
         this.namaTrain = "";
@@ -38,11 +47,11 @@ public abstract class Train implements PrintableInfo {
         this.idTrain = idTrain;
     }
 
-    public String getNamaTrain() {
+    public String getNamaKereta() {
         return namaTrain;
     }
 
-    public void setNamaTrain(String namaTrain) {
+    public void setNamaKereta(String namaTrain) {
         this.namaTrain = namaTrain;
     }
 

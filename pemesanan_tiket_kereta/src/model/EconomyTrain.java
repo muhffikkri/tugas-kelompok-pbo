@@ -48,7 +48,7 @@ public class EconomyTrain extends Train {
     public void printInfo() {
         System.out.println("=== Kereta Ekonomi ===");
         System.out.println("ID: " + getIdTrain());
-        System.out.println("Nama: " + getNamaTrain());
+        System.out.println("Nama: " + getNamaKereta());
         System.out.println("Kapasitas: " + getKapasitas());
         System.out.println("Discount Rate: " + (discountRate * 100) + "%");
     }

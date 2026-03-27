@@ -47,7 +47,7 @@ public class ExecutiveTrain extends Train {
     public void printInfo() {
         System.out.println("=== Kereta Eksekutif ===");
         System.out.println("ID: " + getIdTrain());
-        System.out.println("Nama: " + getNamaTrain());
+        System.out.println("Nama: " + getNamaKereta());
         System.out.println("Kapasitas: " + getKapasitas());
         System.out.println("Surcharge Rate: " + (surchargeRate * 100) + "%");
     }
