@@ -1,30 +1,36 @@
 /* Nama File    : ExecutiveTrain.java
- * Deskripsi    : Turunan Train untuk layanan kereta eksekutif
+ * Deskripsi    : Kelas turunan Train untuk kereta eksekutif
  * Tanggal      : 23 Maret 2026
  */
 package model;
 
-/**
- * Merepresentasikan kereta kelas eksekutif.
- * Menyediakan placeholder perhitungan tarif khusus executive.
- *
- * TODO :
- * 1. Tentukan formula tarif executive (base fare + surcharge).
- * 2. Isi constructor dengan parameter turunan yang dibutuhkan.
- */
-public class ExecutiveTrain extends Train {
-    /************ATRIBUT************/
-    private double surchargeRate;
+//Merepresentasikan kereta kelas eksekutif.
 
-    /************METHOD************/
+public class ExecutiveTrain extends Train {
+    //ATRIBUT
+    private String fasilitas;
+    private double surchargeRate;
+    
+
+    //METHOD
     public ExecutiveTrain() {
         super();
-        this.surchargeRate = 0;
+        this.fasilitas = "";
+        this.surchargeRate = 0.0;
     }
 
-    public ExecutiveTrain(String idTrain, String namaKereta, int kapasitas, double surchargeRate) {
-        super(idTrain, namaKereta, kapasitas);
+    public ExecutiveTrain(String idTrain, String namaTrain, int kapasitas, double discountRate, String fasilitas) {
+        super(idTrain, namaTrain, kapasitas, discountRate);
+        this.fasilitas = fasilitas;
         this.surchargeRate = surchargeRate;
+    }
+
+    public String getFasilitas() {
+        return fasilitas;
+    }
+
+    public void setFasilitas(String fasilitas) {
+        this.fasilitas = fasilitas;
     }
 
     public double getSurchargeRate() {
@@ -36,19 +42,15 @@ public class ExecutiveTrain extends Train {
     }
 
     @Override
-    public double hitungTarif(int jarak) {
-        // Tarif eksekutif: Rp 2000 per km + surcharge
-        double baseTarif = jarak * 2000;
-        double tarifDenganSurcharge = baseTarif * (1 + surchargeRate);
-        return tarifDenganSurcharge;
+    public double hitungTarif() {
+        return getTarifDasar() + surchargeRate - (getTarifDasar() * getDiscountRate());
     }
 
     @Override
     public void printInfo() {
-        System.out.println("=== Kereta Eksekutif ===");
-        System.out.println("ID: " + getIdTrain());
-        System.out.println("Nama: " + getNamaKereta());
-        System.out.println("Kapasitas: " + getKapasitas());
-        System.out.println("Surcharge Rate: " + (surchargeRate * 100) + "%");
+        super.printInfo();
+        System.out.println("===== Kelas: Eksekutif =====");
+        System.out.println("Fasilitas: " + fasilitas);
+        System.out.println("Tarif: " + hitungTarif());
     }
 }

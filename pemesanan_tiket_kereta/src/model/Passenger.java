@@ -5,31 +5,39 @@
 package model;
 
 import exception.InvalidNIKException;
+import service.PrintableInfo;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Merepresentasikan penumpang kereta sebagai turunan dari Person.
- * Menambahkan kebutuhan validasi NIK dan perilaku print informasi.
- *
- * TODO Tim:
- * 1. Implement constructor lengkap sesuai kebutuhan pemesanan.
- * 2. Implement validasi NIK 16 digit.
- * 3. Lempar InvalidNIKException saat data tidak valid.
- * 4. Uji skenario NIK valid dan invalid.
- */
+// Merepresentasikan penumpang kereta sebagai turunan dari Person.
 public class Passenger extends Person {
-    /************ATRIBUT************/
+    //ATRIBUT
+    private String passengerId;
     private String email;
+    private List<Ticket> tickets;
 
-    /************METHOD************/
+    //METHOD
     public Passenger() {
         super();
+        this.passengerId = "";
         this.email = "";
+        this.tickets = new ArrayList<>();
     }
 
-    public Passenger(String namaLengkap, String nik, String noTelp, String email) throws InvalidNIKException {
-        super(namaLengkap, "", noTelp);
-        setNik(nik); // Validasi NIK melalui setter Person
+    // Konstruktor lengkap untuk Passenger
+    public Passenger(String namaLengkap, String nik, String noTelp, String email, String passengerId) throws InvalidNIKException {
+        super(namaLengkap, nik, noTelp);
+        this.passengerId = passengerId;
         this.email = email;
+        this.tickets = new ArrayList<>();
+    }
+
+    public String getPassengerId() {
+        return passengerId;
+    }
+
+    public void setPassengerId(String passengerId) {
+        this.passengerId = passengerId;
     }
 
     public String getEmail() {
@@ -40,11 +48,33 @@ public class Passenger extends Person {
         this.email = email;
     }
 
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public Ticket bookTickets(Schedule s) {
+        Ticket t = new Ticket();
+        t.setSchedule(s);
+        t.setPassenger(this);
+        this.tickets.add(t);
+        return t;
+    }
+
+    public void cancelTicket(String ticketId) {
+        this.tickets.removeIf(t -> t.getTicketId().equals(ticketId));
+    }
+
     @Override
     public void printInfo() {
+        System.out.println("ID Penumpang: " + passengerId);
         System.out.println("Nama Penumpang: " + getNamaLengkap());
         System.out.println("NIK: " + getNik());
         System.out.println("No. Telepon: " + getNoTelp());
         System.out.println("Email: " + email);
+        System.out.println("Jumlah Tiket: " + tickets.size());
     }
 }

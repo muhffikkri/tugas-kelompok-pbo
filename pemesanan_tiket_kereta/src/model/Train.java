@@ -1,36 +1,33 @@
-package model;
+/* Nama File    : Train.java
+ * Deskripsi    : Kelas abstrak untuk data kereta
+ * Tanggal      : 23 Maret 2026
+ */
 
+package model;
 import service.PrintableInfo;
 
-/**
- * Abstraksi data kereta untuk tipe kereta yang berbeda.
- * Menyediakan kontrak perhitungan tarif berdasarkan jarak.
- *
- * TODO :
- * 1. Konfirmasi atribut minimum kereta pada class diagram final.
- * 2. Implement constructor, getter, dan setter.
- * 3. Lengkapi assertion kapasitas > 0 pada constructor/setter.
- * 4. Tambahkan pengujian assertion aktif dengan flag -ea.
- */
+//Kelas abstrak yang merepresentasikan data dasar kereta api.
 public abstract class Train implements PrintableInfo {
+    //ATRIBUT
     private String idTrain;
-    private String namaKereta;
+    private String namaTrain;
     private int kapasitas;
+    private double discountRate;
+    private double tarifDasar;
 
-    public static int TrainCounter;
-
-    protected Train() {
+    //METHOD
+    public Train() {
         this.idTrain = "";
-        this.namaKereta = "";
+        this.namaTrain = "";
         this.kapasitas = 0;
+        this.discountRate = 0.0;
     }
 
-    protected Train(String idTrain, String namaKereta, int kapasitas) {
-        assert kapasitas > 0 : "Kapasitas kereta lebih dari 0";
+    public Train(String idTrain, String namaTrain, int kapasitas, double discountRate) {
         this.idTrain = idTrain;
-        this.namaKereta = namaKereta;
+        this.namaTrain = namaTrain;
         this.kapasitas = kapasitas;
-        TrainCounter++;
+        this.discountRate = discountRate;
     }
 
     public String getIdTrain() {
@@ -41,12 +38,12 @@ public abstract class Train implements PrintableInfo {
         this.idTrain = idTrain;
     }
 
-    public String getNamaKereta() {
-        return namaKereta;
+    public String getNamaTrain() {
+        return namaTrain;
     }
 
-    public void setNamaKereta(String namaKereta) {
-        this.namaKereta = namaKereta;
+    public void setNamaTrain(String namaTrain) {
+        this.namaTrain = namaTrain;
     }
 
     public int getKapasitas() {
@@ -54,13 +51,33 @@ public abstract class Train implements PrintableInfo {
     }
 
     public void setKapasitas(int kapasitas) {
-        assert kapasitas > 0 : "Kapasitas kereta lebih dari 0";
         this.kapasitas = kapasitas;
     }
 
-    public abstract double hitungTarif(int jarak);
+    public double getDiscountRate() {
+        return discountRate;
+    }
+
+    public void setDiscountRate(double discountRate) {
+        this.discountRate = discountRate;
+    }
+
+    public double getTarifDasar() {
+        return tarifDasar;
+    }
+
+    public void setTarifDasar(double tarifDasar) {
+        this.tarifDasar = tarifDasar;
+    }
+
+
+    public abstract double hitungTarif();
 
     @Override
     public void printInfo() {
+        System.out.println("ID Kereta: " + idTrain);
+        System.out.println("Nama Kereta: " + namaTrain);
+        System.out.println("Kapasitas: " + kapasitas);
+        System.out.println("Discount Rate: " + discountRate);
     }
 }

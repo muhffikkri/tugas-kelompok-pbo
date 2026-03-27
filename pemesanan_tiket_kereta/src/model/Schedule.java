@@ -1,124 +1,59 @@
 /* Nama File    : Schedule.java
- * Deskripsi    : Jadwal perjalanan yang berelasi agregasi dengan Train dan Station
+ * Deskripsi    : Kelas untuk data jadwal
  * Tanggal      : 23 Maret 2026
  */
 package model;
-
-import java.time.LocalDate;
 import service.PrintableInfo;
+import java.time.LocalDateTime;
+import java.time.Duration;
 
-/**
- * Menyimpan informasi jadwal perjalanan kereta.
- * Kelas ini menerapkan agregasi terhadap Train, Station asal, dan Station tujuan.
- *
- * RELASI AGREGASI:
- * ================
- * Schedule <>----- Train       (weak ownership - Train mandiri)
- * Schedule <>----- Station     (weak ownership - Station mandiri)
- *
- * TODO :
- * 1. Pastikan relasi agregasi terdokumentasi di class diagram.
- * 2. Implement method overloading pencarian jadwal.
- * 3. Lengkapi constructor, getter, setter, dan validasi tanggal.
- * 4. Uji pencarian jadwal berdasarkan beberapa kombinasi parameter.
- */
+//Kelas yang merepresentasikan jadwal perjalanan kereta api.
 public class Schedule implements PrintableInfo {
-    /****** RELASI AGREGASI (WEAK OWNERSHIP) ******
-     * 
-    *    Schedule
-    *       <> (diamond = agregasi/weak ownership)
-    *   +-----------+------------+
-    *   |           |            |
-    *   v           v            v
-    *  Train     Station(Asal) Station(Tujuan)
-     * 
-     * Ciri Agregasi:
-     * - Child (Train, Station) bisa HIDUP MANDIRI
-     * - Parent (Schedule) hanya REFERENSI, tidak CREATE
-     * - Jika Schedule dihapus, Train/Station TETAP ADA
-     * - 1 Train/Station bisa pakai di MULTIPLE Schedule
-     *********************************************/
-    
-    /************ATRIBUT************/
-    private String idSchedule;
-    
-    /****** AGREGASI TRAIN ******
-     * 
-    * <> AGREGASI -> Train
-     * 
-     * Parent: Schedule
-     * Child: Train
-     * 
-     * Ciri Agregasi (Weak Ownership):
-     * 1. Train TETAP HIDUP MANDIRI (tidak diciptakan Schedule)
-     * 2. Schedule hanya REFERENSI/MENGGUNAKAN Train yang sudah ada
-     * 3. Jika Schedule dihapus → Train TETAP ADA (tidak orphaned)
-     * 4. 1 Train bisa dipakai di MULTIPLE Schedule
-     * 5. Train bisa exist TANPA Schedule
-     *****************************/
-    /** <> AGREGASI: Train dapat hidup mandiri (digunakan di multiple schedule) */
+    //ATRIBUT
+    private String scheduleId;
     private Train train;
-    
-    /****** AGREGASI STATION ASAL ******
-     * 
-    * <> AGREGASI -> Station Asal
-     * 
-     * Parent: Schedule
-     * Child: Station (Asal)
-     * 
-     * Ciri Agregasi (Weak Ownership):
-     * 1. Station Asal TETAP HIDUP MANDIRI (tidak diciptakan Schedule)
-     * 2. Schedule hanya REFERENSI/MENGGUNAKAN Station yang sudah ada
-     * 3. Jika Schedule dihapus → Station Asal TETAP ADA
-     * 4. 1 Station bisa dipakai di MULTIPLE Schedule
-     * 5. Station bisa exist TANPA Schedule
-     *****************************/
-    /** <> AGREGASI: Station asal dapat hidup mandiri (digunakan di multiple schedule) */
-    private Station stationAsal;
-    
-    /****** AGREGASI STATION TUJUAN ******
-     * 
-    * <> AGREGASI -> Station Tujuan
-     * 
-     * Parent: Schedule
-     * Child: Station (Tujuan)
-     * 
-     * Ciri Agregasi (Weak Ownership):
-     * 1. Station Tujuan TETAP HIDUP MANDIRI (tidak diciptakan Schedule)
-     * 2. Schedule hanya REFERENSI/MENGGUNAKAN Station yang sudah ada
-     * 3. Jika Schedule dihapus → Station Tujuan TETAP ADA
-     * 4. 1 Station bisa dipakai di MULTIPLE Schedule
-     * 5. Station bisa exist TANPA Schedule
-     *****************************/
-    /** <> AGREGASI: Station tujuan dapat hidup mandiri (digunakan di multiple schedule) */
-    private Station stationTujuan;
-    
-    private LocalDate tanggalBerangkat;
+    private Stasion departureStasion;
+    private Stasion arrivalStasion;
+    private LocalDateTime departureTime;
+    private LocalDateTime arrivalTime;
+    private boolean[] seats;
 
-    /************METHOD************/
+    //METHOD
     public Schedule() {
-        this.idSchedule = "";
+        this.scheduleId = "";
         this.train = null;
-        this.stationAsal = null;
-        this.stationTujuan = null;
-        this.tanggalBerangkat = null;
+        this.departureStasion = null;
+        this.arrivalStasion = null;
+        this.departureTime = LocalDateTime.now();
+        this.arrivalTime = LocalDateTime.now();
+        this.seats = new boolean[0];
     }
 
-    public Schedule(String idSchedule, Train train, Station stationAsal, Station stationTujuan, LocalDate tanggalBerangkat) {
-        this.idSchedule = idSchedule;
+    public Schedule(String scheduleId, Train train, Stasion departureStasion, Stasion arrivalStasion, LocalDateTime departureTime, LocalDateTime arrivalTime) {
+        if (arrivalTime.isBefore(departureTime)) {
+            throw new IllegalArgumentException(
+                "Waktu tiba tidak boleh sebelum waktu berangkat"
+            );
+        }
+        this.scheduleId = scheduleId;
         this.train = train;
-        this.stationAsal = stationAsal;
-        this.stationTujuan = stationTujuan;
-        
-        this.tanggalBerangkat = tanggalBerangkat;
+        this.departureStasion = departureStasion;
+        this.arrivalStasion = arrivalStasion;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
+        int kapasitas = train.getKapasitas() ;
+        seats = new boolean[kapasitas];
+        for (int i = 0; i < kapasitas; i++) {
+            this.seats[i] = true; // true artinya tersedia
+        }
     }
 
-    public String getIdSchedule() {
-        return idSchedule;
+    public String getScheduleId() {
+        return scheduleId;
     }
 
-    public void setIdSchedule(String idSchedule) {
-        this.idSchedule = idSchedule;
+    public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
     }
 
     public Train getTrain() {
@@ -129,37 +64,100 @@ public class Schedule implements PrintableInfo {
         this.train = train;
     }
 
-    public Station getStationAsal() {
-        return stationAsal;
+    public Stasion getDepartureStasion() {
+        return departureStasion;
     }
 
-    public void setStationAsal(Station stationAsal) {
-        this.stationAsal = stationAsal;
+    public void setDepartureStasion(Stasion departureStasion) {
+        this.departureStasion = departureStasion;
     }
 
-    public Station getStationTujuan() {
-        return stationTujuan;
+    public Stasion getArrivalStasion() {
+        return arrivalStasion;
     }
 
-    public void setStationTujuan(Station stationTujuan) {
-        this.stationTujuan = stationTujuan;
+    public void setArrivalStasion(Stasion arrivalStasion) {
+        this.arrivalStasion = arrivalStasion;
     }
 
-    public LocalDate getTanggalBerangkat() {
-        return tanggalBerangkat;
+    public LocalDateTime getDepartureTime() {
+        return departureTime;
     }
 
-    public void setTanggalBerangkat(LocalDate tanggalBerangkat) {
-        this.tanggalBerangkat = tanggalBerangkat;
+    public void setDepartureTime(LocalDateTime departureTime) {
+        if (arrivalTime != null && arrivalTime.isBefore(departureTime)) {
+            throw new IllegalArgumentException("Waktu berangkat tidak valid");
+        }
+        this.departureTime = departureTime;
+    }
+
+    public LocalDateTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(LocalDateTime arrivalTime) {
+        if (departureTime != null && arrivalTime.isBefore(departureTime)) {
+            throw new IllegalArgumentException("Waktu tiba tidak valid");
+        }
+        this.arrivalTime = arrivalTime;
+    }
+
+    public long getDuration() {
+        if (departureTime != null && arrivalTime != null) {
+            return Duration.between(departureTime, arrivalTime).toMinutes();
+        }
+        return 0;
+    }
+
+    public boolean[] getSeats() {
+        return seats;
+    }
+
+    public void setSeats(boolean[] seats) {
+        this.seats = seats;
+    }
+
+    public int getAvailableSeat() {
+        int count = 0;
+        for (boolean s : seats) {
+            if (s) count++;
+        }
+        return count;
+    }
+
+    public int getBookedSeat() {
+        return seats.length - getAvailableSeat();
+    }
+
+    //kursi pilih sendiri
+    public void bookSeat(int seatIndex) throws exception.SeatUnavailableException {
+        if (index < 0 || index >= seats.length || !seats[index]) {
+            throw new exception.SeatUnavailableException("Kursi tidak tersedia!");
+        }
+        seats[index] = false;
+    }
+
+    //Kursi dipilih sistem automatis
+    public int bookFirstAvailableSeat() throws exception.SeatUnavailableException {
+        for (int i = 0; i < seats.length; i++) {
+            if (seats[i]) {
+                seats[i] = false;
+                return i;
+            }
+        }
+        throw new exception.SeatUnavailableException("Kursi sudah habis!");
     }
 
     @Override
     public void printInfo() {
-        if (train != null && stationAsal != null && stationTujuan != null) {
-            System.out.println("ID Schedule: " + idSchedule);
-            System.out.println("Kereta: " + train.getNamaKereta());
-            System.out.println("Dari: " + stationAsal.getNamaStasiun() + " -> Ke: " + stationTujuan.getNamaStasiun());
-            System.out.println("Tanggal: " + tanggalBerangkat);
-        }
+        System.out.println("ID Jadwal: " + scheduleId);
+        if (train != null) System.out.println("Kereta: " + train.getNamaTrain());
+        if (departureStasion != null) System.out.println("Stasiun Awal: " + departureStasion.getNamaStasion() + " (" + departureStasion.getKota() + ")");
+        if (arrivalStasion != null) System.out.println("Stasiun Tujuan: " + arrivalStasion.getNamaStasion() + " (" + arrivalStasion.getKota() + ")");
+        System.out.println("Waktu Berangkat: " + departureTime);
+        System.out.println("Waktu Tiba: " + arrivalTime);
+        System.out.println("Durasi: " + getDuration() + " menit");
+        System.out.println("Kursi Tersedia: " + getAvailableSeat());
+        System.out.println("Kursi Terisi: " + getBookedSeat());
     }
 }

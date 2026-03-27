@@ -7,39 +7,31 @@ package model;
 import service.PrintableInfo;
 import exception.InvalidNIKException;
 
-/**
- * Abstraksi umum untuk seluruh entitas individu pada sistem.
- * Menyimpan atribut dasar person dan kontrak method informasi.
- *
- * TODO Tim:
- * 1. Finalisasi atribut wajib berdasarkan class diagram.
- * 2. Lengkapi constructor, getter, dan setter.
- * 3. Tambahkan validasi dasar pada setter.
- */
+//Abstraksi umum untuk seluruh entitas individu pada sistem.
+//ATRIBUT
 public abstract class Person implements PrintableInfo {
-    /************ATRIBUT************/
-    private String namaLengkap;
+    private String nama;
     private String nik;
     private String noTelp;
 
-    /************METHOD************/
-    protected Person() {
-        this.namaLengkap = "";
+    //METHOD
+    public Person() {
+        this.nama = "";
         this.nik = "";
         this.noTelp = "";
     }
 
-    protected Person(String namaLengkap, String nik, String noTelp) {
-        this.namaLengkap = namaLengkap;
-        this.nik = nik;
+    public Person(String nama, String nik, String noTelp) throws InvalidNIKException {
+        this.nama = nama;
+        setNik(nik);
         this.noTelp = noTelp;
     }
 
     public String getNamaLengkap() {
-        return namaLengkap;
+        return nama;
     }
 
-    public void setNamaLengkap(String namaLengkap) {
+    public void setNamaLengkap(String nama) {
         this.namaLengkap = namaLengkap;
     }
 
@@ -48,8 +40,8 @@ public abstract class Person implements PrintableInfo {
     }
 
     public void setNik(String nik) throws InvalidNIKException {
-        if (nik == null || nik.length() != 16 || !nik.matches("\\d{16}")) {
-            throw new InvalidNIKException("NIK harus terdiri dari 16 digit angka");
+        if (nik.length() != 16) {
+            throw new InvalidNIKException("NIK harus berjumlah 16 digit.");
         }
         this.nik = nik;
     }
@@ -62,5 +54,6 @@ public abstract class Person implements PrintableInfo {
         this.noTelp = noTelp;
     }
 
+    @Override
     public abstract void printInfo();
 }
