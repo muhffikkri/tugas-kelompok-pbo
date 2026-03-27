@@ -47,11 +47,11 @@ public abstract class Train implements PrintableInfo {
         this.idTrain = idTrain;
     }
 
-    public String getNamaKereta() {
+    public String getNamaTrain() {
         return namaTrain;
     }
 
-    public void setNamaKereta(String namaTrain) {
+    public void setNamaTrain(String namaTrain) {
         this.namaTrain = namaTrain;
     }
 
