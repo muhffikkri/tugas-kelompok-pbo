@@ -3,7 +3,7 @@
  * Tanggal      : 23 Maret 2026
  */
 package service;
-import exception.InvalidBookingException;
+import model.PaymentRecord;
 
 /**
  * Implementasi awal metode pembayaran digital.
@@ -67,5 +67,6 @@ public class DigitalPayment implements PaymentMethod {
 
         //Proses Pembayaran
         System.out.println("Memproses pembayaran digital sebesar Rp " + String.format("%,.2f", amount) + " melalui " + namaProvider);
+        record.syncPayment("COMPLETED", amount);
     }
 }

@@ -23,7 +23,7 @@ public class Ticket implements PrintableInfo {
         this.seatNumber = "";
         this.schedule = null;
         this.passenger = null;
-        this.paymentRecord = new PaymentRecord("UNPAID");
+        this.paymentRecord = new PaymentRecord();
     }
 
     public Ticket(String ticketId, String seatNumber, Schedule schedule, Passenger passenger) {
@@ -31,7 +31,7 @@ public class Ticket implements PrintableInfo {
         this.seatNumber = seatNumber;
         this.schedule = schedule;
         this.passenger = passenger;
-        this.paymentRecord = new PaymentRecord("UNPAID");
+        this.paymentRecord = new PaymentRecord();
     }
 
     public String getTicketId() {
@@ -60,6 +60,10 @@ public class Ticket implements PrintableInfo {
 
     public Passenger getPassenger() {
         return passenger;
+    }
+
+    public void setPassenger(Passenger passenger) {
+        this.passenger = passenger;
     }
 
     public PaymentRecord getPaymentRecord() {

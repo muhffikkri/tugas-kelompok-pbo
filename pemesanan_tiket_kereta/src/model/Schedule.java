@@ -131,10 +131,10 @@ public class Schedule implements PrintableInfo {
 
     //kursi pilih sendiri
     public void bookSeat(int seatIndex) throws exception.SeatUnavailableException {
-        if (index < 0 || index >= seats.length || !seats[index]) {
+        if (seatIndex < 0 || seatIndex >= seats.length || !seats[seatIndex]) {
             throw new exception.SeatUnavailableException("Kursi tidak tersedia!");
         }
-        seats[index] = false;
+        seats[seatIndex] = false;
     }
 
     //Kursi dipilih sistem automatis

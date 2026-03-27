@@ -20,6 +20,10 @@ public class ExecutiveTrain extends Train {
     }
 
     public ExecutiveTrain(String idTrain, String namaTrain, int kapasitas, double discountRate, String fasilitas) {
+        this(idTrain, namaTrain, kapasitas, discountRate, fasilitas, 0.0);
+    }
+
+    public ExecutiveTrain(String idTrain, String namaTrain, int kapasitas, double discountRate, String fasilitas, double surchargeRate) {
         super(idTrain, namaTrain, kapasitas, discountRate);
         this.fasilitas = fasilitas;
         this.surchargeRate = surchargeRate;

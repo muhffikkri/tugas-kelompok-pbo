@@ -2,7 +2,7 @@
  * Deskripsi    : Interface untuk metode pembayaran
  * Tanggal      : 23 Maret 2026
  */
-package model;
+package service;
 
 /**
  * Interface yang menyediakan metode processPayment() untuk memproses pembayaran.

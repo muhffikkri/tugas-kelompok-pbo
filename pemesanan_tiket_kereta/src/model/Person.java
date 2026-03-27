@@ -32,7 +32,7 @@ public abstract class Person implements PrintableInfo {
     }
 
     public void setNamaLengkap(String nama) {
-        this.namaLengkap = namaLengkap;
+        this.nama = nama;
     }
 
     public String getNik() {
