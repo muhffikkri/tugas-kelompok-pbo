@@ -21,41 +21,28 @@ import model.Train;
 import service.DigitalPayment;
 import service.ScheduleService;
 
-/**
- * Kelas utama untuk menjalankan simulasi alur pemesanan dari awal hingga akhir.
- *
- * TODO Tim:
- * 1. Susun skenario simulasi normal dan skenario gagal.
- * 2. Inisialisasi objek model dan service sesuai flow sistem.
- * 3. Isi proses pencarian jadwal, booking, dan pembayaran.
- * 4. Pastikan penanganan exception terstruktur.
- */
 public class RailwayApp {
     /************ATRIBUT************/
 
     /************METHOD************/
     public static void main(String[] args) {
         try {
-            System.out.println("===== SIMULASI NORMAL =====");
-            simulateNormalBookingFlow();
+            System.out.println("===== SKENARIO BERHASIL (1) =====");
+            scenarioBerhasil();
 
-            System.out.println("\n===== SIMULASI GAGAL =====");
-            simulateFailureFlow();
-        } catch (InvalidNIKException e) {
-            System.err.println("[ERROR NIK] " + e.getMessage());
-        } catch (SeatAlreadyBookedException e) {
-            System.err.println("[ERROR KURSI] " + e.getMessage());
-        } catch (InvalidBookingException e) {
-            System.err.println("[ERROR BOOKING] " + e.getMessage());
-        } catch (ScheduleConflictException e) {
-            System.err.println("[ERROR JADWAL] " + e.getMessage());
+            System.out.println("\n===== SKENARIO EXCEPTION (5) =====");
+            scenarioInvalidNIK();
+            scenarioScheduleConflict();
+            scenarioSeatAlreadyBooked();
+            scenarioSeatUnavailable();
+            scenarioInvalidBooking();
         } catch (Exception e) {
             System.err.println("[ERROR UMUM] " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    private static void simulateNormalBookingFlow()
+    private static void scenarioBerhasil()
             throws InvalidNIKException, InvalidBookingException, ScheduleConflictException, SeatAlreadyBookedException {
         // Inisialisasi data master
         Stasion gambir = new Stasion("ST001", "Gambir", "Jakarta");
@@ -99,15 +86,59 @@ public class RailwayApp {
         tiket.printInfo();
     }
 
-    private static void simulateFailureFlow() {
-        // 1) Gagal validasi NIK
+    // 1) InvalidNIKException
+    private static void scenarioInvalidNIK() {
         try {
-            new Passenger("Salah NIK", "12345", "0800000000", "gagal@mail.com", "PS002");
-        } catch (InvalidNIKException e) {
-            System.out.println("[EXPECTED] InvalidNIKException: " + e.getMessage());
-        }
+            String nama = "Salah NIK";
+            String nik = "12345";
+            String noTelp = "0800000000";
+            String email = "gagal@mail.com";
+            String passengerId = "PS002";
 
-        // 2) Gagal booking karena kursi sudah dibooking
+            System.out.println("- Input InvalidNIK: nama=" + nama + ", nik=" + nik + ", noTelp=" + noTelp + ", email=" + email + ", passengerId=" + passengerId);
+            new Passenger(nama, nik, noTelp, email, passengerId);
+        } catch (InvalidNIKException e) {
+            System.out.println("[1/5] InvalidNIKException: " + e.getMessage());
+        }
+    }
+
+    // 2) ScheduleConflictException
+    private static void scenarioScheduleConflict() throws InvalidNIKException {
+        try {
+            Stasion gambir = new Stasion("ST011", "Gambir", "Jakarta");
+            Stasion cirebon = new Stasion("ST012", "Cirebon", "Cirebon");
+
+            Train kereta = new EconomyTrain("TR011", "Ciremai", 80, 20, 0.05);
+            kereta.setTarifDasar(100_000);
+
+            ScheduleService scheduleService = new ScheduleService();
+
+            Schedule jadwalA = new Schedule(
+                    "SC-A",
+                    kereta,
+                    gambir,
+                    cirebon,
+                    LocalDateTime.now().plusDays(1).withHour(8).withMinute(0).withSecond(0).withNano(0),
+                    LocalDateTime.now().plusDays(1).withHour(10).withMinute(0).withSecond(0).withNano(0));
+
+            Schedule jadwalB = new Schedule(
+                    "SC-B",
+                    kereta,
+                    gambir,
+                    cirebon,
+                    LocalDateTime.now().plusDays(1).withHour(9).withMinute(0).withSecond(0).withNano(0),
+                    LocalDateTime.now().plusDays(1).withHour(11).withMinute(0).withSecond(0).withNano(0));
+
+            scheduleService.addSchedule(jadwalA);
+            System.out.println("\n- Input ScheduleConflict: trainId=" + kereta.getIdTrain() + ", jadwalA=08:00-10:00, jadwalB=09:00-11:00 (overlap)");
+            scheduleService.addSchedule(jadwalB);
+        } catch (ScheduleConflictException e) {
+            System.out.println("[2/5] ScheduleConflictException: " + e.getMessage());
+        }
+    }
+
+    // 3) SeatAlreadyBookedException
+    private static void scenarioSeatAlreadyBooked() {
         try {
             Stasion solo = new Stasion("ST003", "Solo Balapan", "Solo");
             Stasion yk = new Stasion("ST004", "Tugu", "Yogyakarta");
@@ -122,18 +153,46 @@ public class RailwayApp {
                     LocalDateTime.now().plusDays(2).withHour(9).withMinute(0).withSecond(0).withNano(0),
                     LocalDateTime.now().plusDays(2).withHour(11).withMinute(0).withSecond(0).withNano(0));
 
+            System.out.println("\n- Input SeatAlreadyBooked: seatIndex=1 dibooking 2 kali pada jadwal SCH002");
             bookSeatOrThrowAlreadyBooked(jadwal, 1);
             bookSeatOrThrowAlreadyBooked(jadwal, 1);
         } catch (SeatAlreadyBookedException e) {
-            System.out.println("[EXPECTED] SeatAlreadyBookedException: " + e.getMessage());
+            System.out.println("[3/5] SeatAlreadyBookedException: " + e.getMessage());
         }
+    }
 
-        // 3) Gagal generate tiket karena data booking tidak valid
+    // 4) SeatUnavailableException
+    private static void scenarioSeatUnavailable() {
+        try {
+            Stasion tegal = new Stasion("ST021", "Tegal", "Tegal");
+            Stasion pekalongan = new Stasion("ST022", "Pekalongan", "Pekalongan");
+            Train kereta = new EconomyTrain("TR021", "Kaligung", 1, 10, 0.0);
+            kereta.setTarifDasar(70_000);
+
+            Schedule jadwal = new Schedule(
+                    "SC-U1",
+                    kereta,
+                    tegal,
+                    pekalongan,
+                    LocalDateTime.now().plusDays(2).withHour(7).withMinute(0).withSecond(0).withNano(0),
+                    LocalDateTime.now().plusDays(2).withHour(8).withMinute(0).withSecond(0).withNano(0));
+
+            System.out.println("\n- Input SeatUnavailable: kapasitas kereta=1, bookFirstAvailableSeat() dipanggil 2 kali");
+            jadwal.bookFirstAvailableSeat();
+            jadwal.bookFirstAvailableSeat();
+        } catch (SeatUnavailableException e) {
+            System.out.println("[4/5] SeatUnavailableException: " + e.getMessage());
+        }
+    }
+
+    // 5) InvalidBookingException
+    private static void scenarioInvalidBooking() {
         try {
             Ticket invalidTicket = new Ticket();
+            System.out.println("\n- Input InvalidBooking: Ticket default tanpa passenger, schedule, dan seatNumber");
             invalidTicket.generateTicket();
         } catch (InvalidBookingException e) {
-            System.out.println("[EXPECTED] InvalidBookingException: " + e.getMessage());
+            System.out.println("[5/5] InvalidBookingException: " + e.getMessage());
         }
     }
 
