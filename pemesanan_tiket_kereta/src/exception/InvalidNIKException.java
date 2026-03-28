@@ -15,6 +15,7 @@ public class InvalidNIKException extends Exception {
 	public InvalidNIKException() {
 	}
 
+	// method overloading dengan parameter message
 	public InvalidNIKException(String message) {
 		super(message);
 	}

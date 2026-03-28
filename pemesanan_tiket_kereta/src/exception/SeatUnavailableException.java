@@ -15,6 +15,7 @@ public class SeatUnavailableException extends Exception {
 	public SeatUnavailableException() {
 	}
 
+	// method overloading dengan parameter message
 	public SeatUnavailableException(String message) {
 		super(message);
 	}

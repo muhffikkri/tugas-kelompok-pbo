@@ -15,6 +15,7 @@ public class InvalidBookingException extends Exception {
 	public InvalidBookingException() {
 	}
 
+	// method overloading dengan parameter message
 	public InvalidBookingException(String message) {
 		super(message);
 	}

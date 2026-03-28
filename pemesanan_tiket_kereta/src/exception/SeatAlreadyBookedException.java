@@ -15,6 +15,7 @@ public class SeatAlreadyBookedException extends Exception {
 	public SeatAlreadyBookedException() {
 	}
 
+	// method overloading dengan parameter message
 	public SeatAlreadyBookedException(String message) {
 		super(message);
 	}

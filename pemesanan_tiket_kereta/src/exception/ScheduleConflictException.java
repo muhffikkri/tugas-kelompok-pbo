@@ -15,6 +15,7 @@ public class ScheduleConflictException extends Exception {
 	public ScheduleConflictException() {
 	}
 
+	// method overloading dengan parameter message
 	public ScheduleConflictException(String message) {
 		super(message);
 	} 
