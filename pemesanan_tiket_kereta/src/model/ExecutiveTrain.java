@@ -4,53 +4,66 @@
  */
 package model;
 
-//Merepresentasikan kereta kelas eksekutif.
-
+/**
+ * Merepresentasikan kereta kelas eksekutif.
+ *
+ */
 public class ExecutiveTrain extends Train {
-    //ATRIBUT
+	/************ATRIBUT************/
     private String fasilitas;
     private double surchargeRate;
     
-
-    //METHOD
+	/************METHOD************/
+    // Menginisialisasi kereta eksekutif dengan nilai default.
     public ExecutiveTrain() {
         super();
         this.fasilitas = "";
         this.surchargeRate = 0.0;
     }
 
+    // Menginisialisasi kereta eksekutif tanpa surcharge tambahan.
     public ExecutiveTrain(String idTrain, String namaTrain, int kapasitas, double discountRate, String fasilitas) {
         this(idTrain, namaTrain, kapasitas, discountRate, fasilitas, 0.0);
     }
 
+    // Menginisialisasi kereta eksekutif dengan data lengkap.
     public ExecutiveTrain(String idTrain, String namaTrain, int kapasitas, double discountRate, String fasilitas, double surchargeRate) {
         super(idTrain, namaTrain, kapasitas, discountRate);
-        this.fasilitas = fasilitas;
-        this.surchargeRate = surchargeRate;
+        setFasilitas(fasilitas);
+        setSurchargeRate(surchargeRate);
     }
 
+    // Mengambil deskripsi fasilitas kereta eksekutif.
     public String getFasilitas() {
         return fasilitas;
     }
 
+    // Mengatur deskripsi fasilitas kereta eksekutif.
     public void setFasilitas(String fasilitas) {
-        this.fasilitas = fasilitas;
+        this.fasilitas = (fasilitas == null) ? "" : fasilitas;
     }
 
+    // Mengambil nilai surcharge untuk kelas eksekutif.
     public double getSurchargeRate() {
         return surchargeRate;
     }
 
+    // Mengatur surcharge pada rentang 0 sampai 1.
     public void setSurchargeRate(double surchargeRate) {
+        if (Double.isNaN(surchargeRate) || Double.isInfinite(surchargeRate) || surchargeRate < 0 || surchargeRate > 1) {
+            throw new IllegalArgumentException("Surcharge rate harus pada rentang 0 sampai 1");
+        }
         this.surchargeRate = surchargeRate;
     }
 
     @Override
+    // Menghitung tarif eksekutif dari tarif dasar, surcharge berbasis rate, dan diskon.
     public double hitungTarif() {
-        return getTarifDasar() + surchargeRate - (getTarifDasar() * getDiscountRate());
+        return getTarifDasar() + (getTarifDasar() * getSurchargeRate()) - (getTarifDasar() * getDiscountRate());
     }
 
     @Override
+    // Menampilkan data kereta eksekutif ke konsol.
     public void printInfo() {
         super.printInfo();
         System.out.println("===== Kelas: Eksekutif =====");
