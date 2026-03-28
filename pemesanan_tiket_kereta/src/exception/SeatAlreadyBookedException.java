@@ -7,9 +7,6 @@ package exception;
 /**
  * Exception untuk menangani kondisi kursi sudah dipesan orang lain
  *
- * TODO :
- * 1. Tentukan trigger lempar exception saat pemesanan kursi.
- * 2. Uji race condition pemesanan kursi pada jadwal yang sama.
  */
 public class SeatAlreadyBookedException extends Exception {
 	/************ATRIBUT************/

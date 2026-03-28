@@ -7,9 +7,6 @@ package exception;
 /**
  * Exception untuk menangani kondisi jadwal yang telah terisi oleh perjalanan kereta 
  *
- * TODO :
- * 1. Tentukan trigger lempar exception saat terjadi proses pengajuan jadwal
- * 2. Uji condition pengajuan jadwal ketika jadwal sudah terisi
  */
 public class ScheduleConflictException extends Exception {
     /************ATRIBUT************/
