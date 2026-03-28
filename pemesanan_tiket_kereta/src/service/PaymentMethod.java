@@ -8,5 +8,9 @@ package service;
  * Interface yang menyediakan metode processPayment() untuk memproses pembayaran.
  */
 public interface PaymentMethod {
+	/************ATRIBUT************/
+
+	/************METHOD************/
+    // Menjalankan proses pembayaran sesuai implementasi metode yang digunakan.
     void processPayment(double amount);
 }
