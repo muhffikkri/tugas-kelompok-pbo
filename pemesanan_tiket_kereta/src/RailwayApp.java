@@ -196,6 +196,7 @@ public class RailwayApp {
         }
     }
 
+    // Method untuk booking kursi dan melempar exception ketika kursi sudah dibooking
     private static void bookSeatOrThrowAlreadyBooked(Schedule schedule, int seatIndex) throws SeatAlreadyBookedException {
         try {
             schedule.bookSeat(seatIndex);
