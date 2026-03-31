@@ -1,3 +1,11 @@
+## Anggota Kelompok :    
+1. Nayla Husna - 24060124140158
+2. Khanza Qaila - 24060124120011
+3. Muhammad Akmal Fazli Riyadi - 24060124130123
+4. Muhammad Fahri - 24060124120037
+5. Muhammad Fikri - 24060124130069
+
+
 # Sistem Informasi Pemesanan Tiket Kereta Api
 
 Dokumen ini menjelaskan alur sistem secara menyeluruh berdasarkan implementasi kode saat ini, termasuk detail setiap kelas, atribut, method, jenis kelas, relasi antarkelas, konsep OOP, struktur folder, dan cara menjalankan program.
